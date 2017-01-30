@@ -58,7 +58,7 @@ base64::encode(const string& input) {
   /* Size of the output is at most 137% of the original size */
   string output;
   int translated;
-  for (int i = 0; i < input.length(); i += 3)  {
+  for (unsigned int i = 0; i < input.length(); i += 3)  {
       translated = (input[i] & 0xFC) >> 2;
       output += chars[translated];
       translated = (input[i] & 0x03) << 4;
@@ -97,7 +97,7 @@ base64::decode(const string& input)
       (input.length() - input.find_first_of('=')) : 0), '\0');
   int output_pos = 0;
   int translated[4];
-  for (int i = 0; i < input.length(); i += 4) {
+  for (unsigned int i = 0; i < input.length(); i += 4) {
     translated[0] = chars.find_first_of(input[i]);
     translated[1] = chars.find_first_of(input[i + 1]);
     translated[2] = chars.find_first_of(input[i + 2]);
