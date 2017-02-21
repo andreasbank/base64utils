@@ -39,7 +39,12 @@ const string base64::chars(
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=");
 
 string
-base64::encode(const string& input) {
+base64::encode(const basic_string<unsigned char>& input) {
+  return encode(input.c_str(), input.length());
+}
+
+string
+base64::encode(const unsigned char *input, size_t input_size) {
   /**
    * Theory behind the encoding:
    *
@@ -58,15 +63,15 @@ base64::encode(const string& input) {
   /* Size of the output is at most 137% of the original size */
   string output;
   int translated;
-  for (unsigned int i = 0; i < input.length(); i += 3)  {
+  for (size_t i = 0; i < input_size; i += 3) {
       translated = (input[i] & 0xFC) >> 2;
       output += chars[translated];
       translated = (input[i] & 0x03) << 4;
-      if (i + 1 < input.length())      {
+      if ((i + 1) < input_size) {
           translated |= (input[i + 1] & 0xF0) >> 4;
           output += chars[translated];
           translated = (input[i + 1] & 0x0F) << 2;
-          if (i + 2 < input.length())  {
+          if (i + 2 < input_size)  {
               translated |= (input[i + 2] & 0xC0) >> 6;
               output += chars[translated];
               translated = input[i + 2] & 0x3F;
@@ -84,7 +89,7 @@ base64::encode(const string& input) {
   return output;
 }
 
-string
+basic_string<unsigned char>
 base64::decode(const string& input)
 {
   if (input.length() % 4 != 0)    {
@@ -92,7 +97,7 @@ base64::decode(const string& input)
     throw invalid_argument("Invalid base64 encoded string");
   }
 
-  string output(((input.length() * 3) / 4) -
+  basic_string<unsigned char> output(((input.length() * 3) / 4) -
       (input.find_first_of('=') != string::npos ?
       (input.length() - input.find_first_of('=')) : 0), '\0');
   int output_pos = 0;

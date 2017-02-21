@@ -38,13 +38,22 @@ class base64
 public:
 
   /**
-   * Encode a string as base64.
+   * Encode a binary string as base64.
    *
-   * @param str The string to encode.
+   * @param str The binary string to encode.
    *
    * @return A base64 encoded string.
    */
-  static std::string encode(const std::string& str);
+  std::string encode(const std::basic_string<unsigned char>& input);
+
+  /**
+   * Encode a binary string as base64.
+   *
+   * @param str The binary string to encode.
+   *
+   * @return A base64 encoded string.
+   */
+  static std::string encode(const unsigned char *str, size_t input_size);
 
   /**
    * Decode a base64 string.
@@ -53,5 +62,5 @@ public:
    *
    * @return A decoded string.
    */
-  static std::string decode(const std::string& str);
+  static std::basic_string<unsigned char> decode(const std::string& str);
 };
