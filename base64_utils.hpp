@@ -44,7 +44,7 @@ public:
    *
    * @return A base64 encoded string.
    */
-  std::string encode(const std::basic_string<unsigned char>& input);
+  static std::string encode(const std::basic_string<unsigned char>& input);
 
   /**
    * Encode a binary string as base64.
